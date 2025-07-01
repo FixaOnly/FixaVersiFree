@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login FIXA PANEL</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .particles {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: -1;
+    }
+
+    .login-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px #00ff88;
+      text-align: center;
+      width: 300px;
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
+      color: #fff;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background: #00ff88;
+      border: none;
+      border-radius: 10px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-box button:hover {
+      background: #00cc70;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js" class="particles"></div>
+
+  <div class="login-box">
+    <h2>Login FIXA Panel</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <div class="error" id="error-msg"></div>
+  </div>
+
+  <script>
+    const validUser = "Fixa";
+    const validPass = "Xiterz";
+    const expiryKey = "fixa_expiry";
+    const daysToExpire = 6;
+
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+
+      const savedExpiry = localStorage.getItem(expiryKey);
+      const now = new Date();
+
+      if (savedExpiry && new Date(savedExpiry) < now) {
+        document.getElementById('error-msg').innerText = "Login expired! Hubungi admin.";
+        return;
+      }
+
+      if (user === validUser && pass === validPass) {
+        const expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() + daysToExpire);
+        localStorage.setItem(expiryKey, expireDate);
+        alert("Login berhasil! Expired 3Hari");
+        window.location.href = "index2.html"; // Ganti dengan halaman berikutnya
+      } else {
+        document.getElementById('error-msg').innerText = "Username atau password salah!";
+      }
+    }
+  </script>
+
+  <!-- Partikel ringan -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 50 },
+        color: { value: "#00ff88" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3 },
+        move: {
+          enable: true,
+          speed: 1.5
+        }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" }
+        }
+      },
+      retina_detect: true
+    });
+  </script>
+</body>
+</html>
